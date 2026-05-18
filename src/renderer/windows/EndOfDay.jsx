@@ -1,6 +1,79 @@
 import React, { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { TopBar, nowHHMM, formatScreenTime, MOODS, useEscapeToClose } from './shared.jsx';
+import { TopBar, nowHHMM, formatScreenTime, MOODS, moodMeta, useEscapeToClose } from './shared.jsx';
+
+function SummaryView({ result, mood, journal, tomorrowNote, focusCompleted, focus, screenTime, t }) {
+  const moodInfo = mood ? moodMeta(mood) : null;
+  const journalPreview = journal?.trim() ? journal.trim().slice(0, 140) : null;
+  const note = tomorrowNote?.trim() || null;
+
+  return (
+    <>
+      <div className="summary-hero">
+        <div className="summary-moon">🌙</div>
+        <div className="summary-title">{t('endofday.summary.title')}</div>
+        <div className="summary-sub">
+          {t('endofday.summary.streakLine', { count: result?.streak || 0 })}
+        </div>
+      </div>
+
+      <div className="popup-body" style={{ paddingTop: 6 }}>
+        <div className="summary-grid">
+          {moodInfo && (
+            <div className="summary-row">
+              <span className="summary-label">{t('endofday.summary.moodLabel')}</span>
+              <span className="summary-value">
+                <span style={{ fontSize: 16 }}>{moodInfo.emoji}</span>
+                {t(`mood.${mood}`)}
+              </span>
+            </div>
+          )}
+
+          {screenTime >= 300 && (
+            <div className="summary-row">
+              <span className="summary-label">{t('endofday.summary.screenLabel')}</span>
+              <span className="summary-value mono">{formatScreenTime(screenTime)}</span>
+            </div>
+          )}
+
+          {focus && focusCompleted !== null && (
+            <div className="summary-row">
+              <span className="summary-label">{t('endofday.summary.focusLabel')}</span>
+              <span className="summary-value">
+                {focusCompleted ? `✓ ${focus}` : `· ${focus}`}
+              </span>
+            </div>
+          )}
+        </div>
+
+        {journalPreview && (
+          <div className="summary-journal">
+            <div className="summary-journal-label">{t('endofday.summary.journalLabel')}</div>
+            <div className="summary-journal-text">"{journalPreview}{journal.length > 140 ? '…' : ''}"</div>
+          </div>
+        )}
+
+        {note && (
+          <div className="summary-note">
+            <div className="summary-note-icon">📌</div>
+            <div className="summary-note-inner">
+              <div className="summary-note-label">{t('endofday.summary.tomorrowLabel')}</div>
+              <div className="summary-note-text">{note}</div>
+            </div>
+          </div>
+        )}
+
+        <div className="summary-goodnight">{t('endofday.summary.goodnight')}</div>
+      </div>
+
+      <div className="popup-actions">
+        <button className="btn-main" onClick={() => window.devlog.window.close()}>
+          {t('endofday.summary.close')}
+        </button>
+      </div>
+    </>
+  );
+}
 
 export default function EndOfDay() {
   useEscapeToClose();
@@ -14,6 +87,7 @@ export default function EndOfDay() {
   const [focus, setFocus] = useState(null);
   const [focusCompleted, setFocusCompleted] = useState(null);
   const [showExtras, setShowExtras] = useState(false);
+  const [saveResult, setSaveResult] = useState(null);
 
   useEffect(() => {
     window.devlog.stats.screenTime().then(setScreenTime);
@@ -26,13 +100,32 @@ export default function EndOfDay() {
 
   async function save() {
     setSaving(true);
-    await window.devlog.entry.saveEod({
+    const result = await window.devlog.entry.saveEod({
       mood,
       journal,
       tomorrowNote,
       focusCompleted
     });
-    window.devlog.window.close();
+    setSaveResult(result);
+    setSaving(false);
+  }
+
+  if (saveResult) {
+    return (
+      <div className="popup">
+        <TopBar time={time} />
+        <SummaryView
+          result={saveResult}
+          mood={mood}
+          journal={journal}
+          tomorrowNote={tomorrowNote}
+          focusCompleted={focusCompleted}
+          focus={focus}
+          screenTime={screenTime}
+          t={t}
+        />
+      </div>
+    );
   }
 
   return (

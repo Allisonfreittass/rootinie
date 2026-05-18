@@ -18,7 +18,19 @@
     "save": "salvar 🌙",
     "addExtras": "+ adicionar desabafo ou recado",
     "hideExtras": "− esconder",
-    "extrasHint": "opcionais — só o humor já vale"
+    "extrasHint": "opcionais — só o humor já vale",
+    "summary": {
+      "title": "dia encerrado 🌙",
+      "streakLine_one": "{{count}} dia de streak — bora pra amanhã",
+      "streakLine_other": "{{count}} dias de streak — bora pra amanhã",
+      "moodLabel": "humor",
+      "screenLabel": "tempo de tela",
+      "focusLabel": "foco do dia",
+      "journalLabel": "você escreveu",
+      "tomorrowLabel": "recado pro seu eu de amanhã",
+      "goodnight": "descansa direito. a gente se vê no bom dia. 🌿",
+      "close": "boa noite"
+    }
   },
   "mood": {
     "flow": "flow",

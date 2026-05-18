@@ -805,6 +805,148 @@ html.dark .btn-main { color: #0a1a10; }
 }
 
 /* ══════════════════════════════
+   EOD SUMMARY VIEW
+══════════════════════════════ */
+.summary-hero {
+  padding: 22px 18px 16px;
+  text-align: center;
+  background: linear-gradient(180deg, var(--purple-bg) 0%, transparent 100%);
+  border-bottom: 1px solid var(--border);
+}
+
+.summary-moon {
+  font-size: 36px;
+  line-height: 1;
+  margin-bottom: 8px;
+  animation: moonRise 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes moonRise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.summary-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--bright);
+  letter-spacing: -0.3px;
+  margin-bottom: 4px;
+}
+
+.summary-sub {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--purple);
+  letter-spacing: 0.3px;
+  font-weight: 500;
+}
+
+.summary-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 0 6px;
+}
+
+.summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 13px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+}
+
+.summary-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.summary-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--bright);
+  font-weight: 500;
+}
+
+.summary-value.mono {
+  font-family: 'Geist Mono', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.summary-journal {
+  padding: 12px 14px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--subtle);
+  border-radius: 0 9px 9px 0;
+}
+
+.summary-journal-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.summary-journal-text {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.55;
+  font-style: italic;
+}
+
+.summary-note {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--yellow-bg);
+  border: 1px solid var(--yellow-b);
+  border-radius: 9px;
+}
+
+.summary-note-icon { font-size: 14px; flex-shrink: 0; line-height: 1; margin-top: 1px; }
+.summary-note-inner { flex: 1; }
+
+.summary-note-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--yellow);
+  opacity: 0.85;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.summary-note-text {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.summary-goodnight {
+  margin-top: 4px;
+  padding: 14px 16px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--subtle);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* ══════════════════════════════
    REMINDER POPUP
 ══════════════════════════════ */
 .reminder {

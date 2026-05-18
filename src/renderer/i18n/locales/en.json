@@ -18,7 +18,19 @@
     "save": "save 🌙",
     "addExtras": "+ add a vent or a note",
     "hideExtras": "− hide",
-    "extrasHint": "optional — mood alone is enough"
+    "extrasHint": "optional — mood alone is enough",
+    "summary": {
+      "title": "day closed 🌙",
+      "streakLine_one": "{{count}} day streak — see you tomorrow",
+      "streakLine_other": "{{count}} day streak — see you tomorrow",
+      "moodLabel": "mood",
+      "screenLabel": "screen time",
+      "focusLabel": "today's focus",
+      "journalLabel": "you wrote",
+      "tomorrowLabel": "note for tomorrow's you",
+      "goodnight": "rest well. see you in the morning. 🌿",
+      "close": "good night"
+    }
   },
   "mood": {
     "flow": "flow",

@@ -128,17 +128,57 @@ a { color: inherit; text-decoration: none; }
 .nav-cta:hover { opacity: 0.92; }
 
 .lang-switch {
+  display: inline-flex;
+  align-items: stretch;
+  gap: 2px;
+  padding: 3px;
+  background: var(--bg-3);
   border: 1px solid var(--border-2);
-  padding: 5px 9px;
-  border-radius: 7px;
-  font-size: 11px !important;
-  letter-spacing: 0.6px;
-  color: var(--muted) !important;
-  transition: border-color 120ms, color 120ms;
+  border-radius: 10px;
+  margin-left: 4px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
 }
-.lang-switch:hover {
-  border-color: var(--green-b);
-  color: var(--green) !important;
+
+.lang-opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  border-radius: 7px;
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 12px !important;
+  letter-spacing: 0.4px;
+  color: var(--subtle) !important;
+  background: transparent;
+  transition: background 140ms, color 140ms, transform 140ms;
+  cursor: pointer;
+  line-height: 1;
+  border: 1px solid transparent;
+}
+
+.lang-opt .flag {
+  width: 16px;
+  height: 11px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+  display: block;
+}
+
+.lang-opt:hover:not(.active) {
+  background: var(--bg);
+  color: var(--bright) !important;
+}
+
+.lang-opt.active {
+  background: var(--green);
+  color: #fff !important;
+  cursor: default;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(22,163,74,0.35), 0 1px 2px rgba(0,0,0,0.08);
+}
+.lang-opt.active .flag {
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.35);
 }
 
 .support-line {
@@ -719,11 +759,16 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 600px) {
   .nav { padding: 14px 18px; }
-  .nav-links { gap: 14px; }
-  .nav-links a:not(.nav-cta) { display: none; }
+  .nav-links { gap: 10px; }
+  .nav-links > a:not(.nav-cta) { display: none; }
   .features-grid, .download-cards { grid-template-columns: 1fr; }
   .hero-cta { flex-direction: column; align-items: stretch; }
   .btn-primary, .btn-ghost { justify-content: center; }
+  .lang-switch { margin-left: 0; padding: 2px; }
+  .lang-opt { padding: 4px 8px; font-size: 10px !important; }
+  .hero-meta { flex-wrap: wrap; }
+  h1 { font-size: 32px !important; line-height: 1.15 !important; }
+  h2 { font-size: 24px !important; }
 }
 
 /* ═══════════════ DARK MODE ═══════════════ */
