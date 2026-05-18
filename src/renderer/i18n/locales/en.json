@@ -1,0 +1,137 @@
+{
+  "brand": "inie",
+  "common": {
+    "skip": "skip",
+    "save": "save",
+    "cancel": "cancel",
+    "close": "close",
+    "loading": "loading..."
+  },
+  "endofday": {
+    "greeting": "hey, you survived? 👀 that was <0>{{time}}</0> of screen today. how did it go?",
+    "moodLabel": "today's mood",
+    "journalLabel": "vent here",
+    "journalPlaceholder": "how was your day?",
+    "noteLabel": "note for tomorrow",
+    "notePlaceholder": "something to remember tomorrow...",
+    "save": "save 🌙",
+    "addExtras": "+ add a vent or a note",
+    "hideExtras": "− hide",
+    "extrasHint": "optional — mood alone is enough"
+  },
+  "mood": {
+    "flow": "flow",
+    "frustrated": "frustrated",
+    "tired": "tired",
+    "great": "great"
+  },
+  "morning": {
+    "greeting": "good morning, {{name}} 👋",
+    "greetingNoName": "good morning 👋",
+    "streakDays": "{{count}} days",
+    "ydayLabel": "you left yesterday",
+    "noYday": "no note from yesterday — clean slate ✨",
+    "ydayMoodLabel": "yesterday's mood",
+    "noYdayMood": "—",
+    "lastDays": "last 7 days",
+    "noDay": "no entry",
+    "health": {
+      "water": "drink water first",
+      "breathe": "2min breath",
+      "eyes": "look far 20s"
+    },
+    "snooze": "snooze",
+    "go": "let's code 🚀"
+  },
+  "focus": {
+    "question": "what's the most important task today?",
+    "placeholder": "one line, no pressure",
+    "modeToggle": "focus mode · {{min}}min uninterrupted",
+    "skip": "skip",
+    "start": "start 🚀",
+    "todayLabel": "today's focus",
+    "completedQ": "did you finish it?",
+    "yes": "yes ✓",
+    "no": "didn't happen"
+  },
+  "reminder": {
+    "snooze15": "+15min",
+    "ignore": "ignore",
+    "done": "done ✓",
+    "justNow": "fresh start",
+    "water": {
+      "title": "hydration: time for water 💧",
+      "sub": "<0>{{duration}}</0> without a break. stand up, drink a glass, come back.",
+      "subFresh": "hydration reminder. a glass right now would be good."
+    },
+    "eyes": {
+      "title": "rest your eyes 👀",
+      "sub": "<0>{{duration}}</0> of screen. look far for 20s — window, wall, anything.",
+      "subFresh": "look far for 20s — eases the strain before it shows up."
+    },
+    "breathe": {
+      "title": "2 little minutes of breath 🧘",
+      "sub": "<0>{{duration}}</0> without pause. inhale 4s, hold 4s, exhale 6s.",
+      "subFresh": "inhale 4s, hold 4s, exhale 6s. three rounds and back."
+    }
+  },
+  "settings": {
+    "title": "settings",
+    "eodTime": "end of day",
+    "morningTime": "morning",
+    "reminderInterval": "reminder every (min)",
+    "focusModeMin": "focus mode duration (min)",
+    "sound": "sound",
+    "soundOn": "on",
+    "soundOff": "off",
+    "theme": "theme",
+    "themeSystem": "system",
+    "themeLight": "light",
+    "themeDark": "dark",
+    "language": "language",
+    "skipWeekends": "skip weekends",
+    "skipWeekendsOn": "yes — saturday & sunday off",
+    "skipWeekendsOff": "no — routine every day",
+    "nativeNotifications": "system notifications",
+    "nativeNotificationsOn": "on (recommended in fullscreen)",
+    "nativeNotificationsOff": "off",
+    "support": {
+      "title": "support",
+      "line": "if rootinie helped, consider buying a coffee",
+      "cta": "☕ support"
+    },
+    "sync": {
+      "title": "sync",
+      "loggedOutHint": "sign in to sync across devices",
+      "notConfigured": "supabase not configured in .env",
+      "email": "email",
+      "password": "password",
+      "signIn": "sign in",
+      "signUp": "create account",
+      "signOut": "sign out",
+      "switchToSignUp": "no account? create one",
+      "switchToSignIn": "have an account? sign in",
+      "loggedInAs": "signed in as {{email}}",
+      "lastSync": "last sync: {{when}}",
+      "neverSynced": "never synced",
+      "pending": "{{count}} pending entr(y/ies)",
+      "online": "online",
+      "offline": "offline",
+      "syncNow": "sync now"
+    }
+  },
+  "onboarding": {
+    "title": "welcome to rootinie 🌿",
+    "sub": "a quick health routine for devs",
+    "nameLabel": "what should we call you?",
+    "namePlaceholder": "your name or handle",
+    "languageLabel": "language",
+    "finish": "let's start"
+  },
+  "time": {
+    "justNow": "just now",
+    "minAgo": "{{count}} min ago",
+    "hAgo": "{{count}}h ago",
+    "dAgo": "{{count}}d ago"
+  }
+}

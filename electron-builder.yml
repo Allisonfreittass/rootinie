@@ -1,0 +1,34 @@
+appId: digital.f2tecnologia.rootinie
+productName: Rootinie
+copyright: Copyright (c) 2026 F2 Tecnologia
+directories:
+  output: dist
+  buildResources: build
+files:
+  - out/**/*
+  - package.json
+  - "!**/*.{md,map}"
+asar: true
+extraResources:
+  - from: build/icon.png
+    to: icon.png
+  - from: build/icon.ico
+    to: icon.ico
+win:
+  target:
+    - nsis
+  icon: build/icon.ico
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  shortcutName: Rootinie
+linux:
+  target:
+    - AppImage
+  icon: build/icon.png
+  category: Utility
+  synopsis: Health and memory companion for devs
+extraMetadata:
+  main: out/main/index.js

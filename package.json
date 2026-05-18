@@ -1,0 +1,36 @@
+{
+  "name": "rootinie",
+  "version": "0.1.0",
+  "description": "Rootinie — health and memory companion for developers working from home",
+  "main": "out/main/index.js",
+  "author": "F2 Tecnologia <desenvolvimento@f2tecnologia.digital>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "prebuild": "node scripts/generate-icons.mjs",
+    "package": "pnpm build && electron-builder --win nsis --linux AppImage",
+    "package:win": "pnpm build && electron-builder --win nsis",
+    "package:linux": "pnpm build && electron-builder --linux AppImage",
+    "landing:deploy": "wrangler pages deploy landing --project-name rootinie --commit-dirty=true"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "electron-store": "^8.2.0",
+    "i18next": "^23.15.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-i18next": "^15.0.0",
+    "ws": "^8.20.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "electron": "^32.0.0",
+    "electron-builder": "^25.0.0",
+    "electron-vite": "^2.3.0",
+    "png-to-ico": "^2.1.8",
+    "sharp": "^0.33.5",
+    "vite": "^5.4.0"
+  }
+}

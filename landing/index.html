@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>rootinie — saúde pra devs</title>
+<meta name="description" content="Companheiro de saúde e memória pra devs em home office. Lembretes, journal, humor e streaks. Offline-first, com sync opcional. Windows e Linux." />
+<meta property="og:title" content="rootinie — saúde pra devs" />
+<meta property="og:description" content="Lembretes, journal e humor pra devs em home office. Offline-first." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="/og.png" />
+<link rel="alternate" hreflang="pt-BR" href="/" />
+<link rel="alternate" hreflang="en" href="/en/" />
+<link rel="alternate" hreflang="x-default" href="/" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+<!-- ═══════════════ NAV ═══════════════ -->
+<header class="nav-wrap">
+  <nav class="nav">
+    <a class="brand" href="/">
+      <span class="brand-mark">
+        <svg viewBox="0 0 64 64" width="22" height="22" aria-hidden="true">
+          <path d="M48 12 C48 12 25 12 19 25 C13 38 19 49 32 52 C32 52 32 40 40 31 C40 31 32 37 28 48 C28 48 45 45 49 29 C51 21 50 16 48 12 Z" fill="currentColor"/>
+        </svg>
+      </span>
+      root<span class="accent">inie</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features">recursos</a>
+      <a href="#how">como funciona</a>
+      <a href="#download" class="nav-cta">baixar</a>
+      <a href="/en/" class="lang-switch" aria-label="English">EN</a>
+    </div>
+  </nav>
+</header>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-badge">
+      <span class="badge-dot"></span> v0.1 beta · grátis e offline-first
+    </div>
+    <h1>
+      Lembretes que <span class="accent">você não odeia</span>,
+      <br />pra devs que esquecem de respirar.
+    </h1>
+    <p class="hero-sub">
+      Um popup de bom dia que lembra o que você deixou ontem.
+      Um de fim do dia que pergunta como foi.
+      E uns lembretes no meio pra você levantar, beber água e
+      <span class="mono">olhar pra longe 20s</span>.
+    </p>
+    <div class="hero-cta">
+      <a class="btn-primary" href="#download">
+        baixar grátis
+      </a>
+      <a class="btn-ghost" href="#how">ver como funciona</a>
+    </div>
+    <div class="hero-meta">
+      <span>🪟 Windows</span>
+      <span>🐧 Linux</span>
+      <span>🌗 claro/escuro</span>
+      <span>🇧🇷 pt-BR · 🇺🇸 en</span>
+    </div>
+  </div>
+
+  <!-- hero illustration: morning popup -->
+  <div class="hero-art">
+    <div class="popup-demo morning-demo">
+      <div class="demo-topbar">
+        <span class="demo-brand">
+          <span class="demo-dot"></span>
+          root<span class="accent">inie</span>
+        </span>
+        <span class="demo-controls"><span class="demo-time">09:01</span><span class="demo-x">✕</span></span>
+      </div>
+      <div class="demo-morning-header">
+        <div>
+          <div class="demo-title">bom dia, Allison 👋</div>
+          <div class="demo-sub mono">seg, 19 mai · 09:01</div>
+        </div>
+        <div class="demo-streak">🔥 <span class="mono">7 dias</span></div>
+      </div>
+      <div class="demo-body">
+        <div class="demo-yday">
+          <div class="demo-yday-head">
+            <span class="mono purple-text">VOCÊ DEIXOU ONTEM</span>
+            <span class="mono dim">sex 18:03</span>
+          </div>
+          <div class="demo-yday-text">PR do Lucas antes de qualquer coisa — <code>websocket</code> ainda quebrando em prod</div>
+        </div>
+        <div class="demo-mood-row">
+          <span class="mono dim">humor de ontem</span>
+          <span class="mono">😤 frustrado</span>
+        </div>
+        <div class="demo-health">
+          <div class="demo-chip">💧<span class="mono">beba água</span></div>
+          <div class="demo-chip">🧘<span class="mono">2min respiro</span></div>
+          <div class="demo-chip">👀<span class="mono">olhe longe</span></div>
+        </div>
+      </div>
+      <div class="demo-actions">
+        <button class="demo-btn-ghost mono">snooze</button>
+        <button class="demo-btn-main mono">bora codar 🚀</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FEATURES ═══════════════ -->
+<section id="features" class="features">
+  <p class="section-eyebrow mono">RECURSOS</p>
+  <h2>Tudo que faltava num app de saúde<br />que <span class="accent">entende dev</span>.</h2>
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-icon green">🌅</div>
+      <h3>Bom dia com contexto</h3>
+      <p>Abre lembrando o recado que você deixou ontem. Você não começa o dia do zero — começa de onde parou.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon yellow">🌙</div>
+      <h3>Fim do dia honesto</h3>
+      <p>Humor em 1 clique, journal opcional, e um recado pro amanhã. 20 segundos pra fechar o dia direito.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon blue">💧</div>
+      <h3>Lembretes sem ser chato</h3>
+      <p>Hidratação, alongamento e descanso de olhos no intervalo que <em>você</em> escolhe. Some quando você tá ocioso.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon purple">🔥</div>
+      <h3>Streak de cuidado</h3>
+      <p>Contador de dias seguidos logando. Não pra te punir — pra você ver que tá se cuidando.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon green">☁️</div>
+      <h3>Sync opcional</h3>
+      <p>Funciona 100% offline. Quando quiser, faz login e sincroniza tudo entre máquinas via Supabase.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon yellow">🎨</div>
+      <h3>Bonito de verdade</h3>
+      <p>Geist + Geist Mono, tema claro e escuro que segue o sistema. Mora discreto na bandeja, aparece só quando precisa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ HOW IT WORKS ═══════════════ -->
+<section id="how" class="how">
+  <p class="section-eyebrow mono">COMO FUNCIONA</p>
+  <h2>Três momentos do dia.<br />Você no controle dos <span class="accent">três</span>.</h2>
+
+  <div class="how-row">
+    <div class="how-step">
+      <div class="step-num mono">01</div>
+      <h3>09:01 — bom dia</h3>
+      <p class="step-desc">Abre com o que você deixou ontem, seu humor de ontem, e três lembretes de saúde pra começar bem.</p>
+    </div>
+
+    <div class="popup-demo small-demo">
+      <div class="demo-topbar">
+        <span class="demo-brand"><span class="demo-dot blue-dot"></span>root<span class="accent blue-accent">inie</span></span>
+        <span class="demo-controls"><span class="demo-time">14:30</span><span class="demo-x">✕</span></span>
+      </div>
+      <div class="demo-reminder">
+        <div class="reminder-circle">💧</div>
+        <div>
+          <div class="demo-reminder-title">hidratação: zero detectado</div>
+          <div class="mono dim small">2h17min sem pausar. levanta, bebe água, volta.</div>
+        </div>
+      </div>
+      <div class="demo-actions">
+        <button class="demo-btn-small mono">+15min</button>
+        <button class="demo-btn-small mono">ignorar</button>
+        <button class="demo-btn-small-ok mono">feito ✓</button>
+      </div>
+      <div class="how-caption">
+        <div class="step-num mono">02</div>
+        <h3>Ao longo do dia — lembretes</h3>
+        <p>Pequeno, top-right, não rouba foco. Diz quantas horas você ficou sem pausar.</p>
+      </div>
+    </div>
+
+    <div class="how-step">
+      <div class="step-num mono">03</div>
+      <h3>18:03 — fim do dia</h3>
+      <p class="step-desc">Humor, desabafo livre, e um recado pro amanhã. Aparece pro <em>seu</em> futuro eu.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ DOWNLOAD ═══════════════ -->
+<section id="download" class="download">
+  <p class="section-eyebrow mono">BAIXAR</p>
+  <h2>Grátis, offline-first, e <span class="accent">seu</span>.</h2>
+  <p class="download-sub">Sem cadastro, sem anúncio, sem rastreio. Sync na nuvem é opcional.</p>
+
+  <div class="download-cards">
+    <a class="dl-card" href="https://github.com/Allisonfreittass/rootinie/releases/latest" target="_blank" rel="noopener">
+      <div class="dl-os">🪟</div>
+      <div class="dl-info">
+        <div class="dl-name">Windows</div>
+        <div class="dl-sub mono">.exe · instalador NSIS</div>
+      </div>
+      <div class="dl-arrow">→</div>
+    </a>
+    <a class="dl-card" href="https://github.com/Allisonfreittass/rootinie/releases/latest" target="_blank" rel="noopener">
+      <div class="dl-os">🐧</div>
+      <div class="dl-info">
+        <div class="dl-name">Linux</div>
+        <div class="dl-sub mono">.AppImage · portátil</div>
+      </div>
+      <div class="dl-arrow">→</div>
+    </a>
+  </div>
+
+  <p class="support-line mono">
+    curtiu? <a href="https://buymeacoffee.com/allisonfreitas" target="_blank" rel="noopener">☕ me pague um café</a> — ajuda a manter o servidor de pé
+  </p>
+
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark small">
+        <svg viewBox="0 0 64 64" width="18" height="18" aria-hidden="true">
+          <path d="M48 12 C48 12 25 12 19 25 C13 38 19 49 32 52 C32 52 32 40 40 31 C40 31 32 37 28 48 C28 48 45 45 49 29 C51 21 50 16 48 12 Z" fill="currentColor"/>
+        </svg>
+      </span>
+      <span>root<span class="accent">inie</span></span>
+    </div>
+    <div class="footer-meta mono">
+      <span>v0.1-beta</span>
+      <span>·</span>
+      <span>por Allison Freitas</span>
+      <span>·</span>
+      <span>2026</span>
+      <span>·</span>
+      <a href="/en/" class="footer-lang">english</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

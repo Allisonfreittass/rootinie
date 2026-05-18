@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devlog — Light & Dark</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Geist', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 24px;
+  gap: 64px;
+  background: #e8eaed;
+}
+
+/* ══════════════ LABELS ══════════════ */
+.section-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #8a96a3;
+  text-align: center;
+  margin-bottom: -48px;
+}
+
+.theme-row {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.theme-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.theme-tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.theme-tag.light {
+  background: #fff;
+  color: #6b7a8d;
+  border: 1px solid #dde2e8;
+}
+
+.theme-tag.dark {
+  background: #1a1d23;
+  color: #5a6880;
+  border: 1px solid #2a2f3a;
+}
+
+/* ══════════════════════════════
+   LIGHT THEME
+══════════════════════════════ */
+.light {
+  --bg:        #ffffff;
+  --bg2:       #f5f6f8;
+  --bg3:       #eef0f3;
+  --border:    #e2e5ea;
+  --border2:   #d0d5dd;
+  --muted:     #8a96a6;
+  --subtle:    #6b7a8d;
+  --text:      #2d3748;
+  --bright:    #111827;
+  --green:     #16a34a;
+  --green-bg:  #f0fdf4;
+  --green-b:   #bbf7d0;
+  --yellow:    #d97706;
+  --yellow-bg: #fffbeb;
+  --yellow-b:  #fde68a;
+  --blue:      #2563eb;
+  --blue-bg:   #eff6ff;
+  --blue-b:    #bfdbfe;
+  --purple:    #7c3aed;
+  --purple-bg: #f5f3ff;
+  --purple-b:  #ddd6fe;
+  --red:       #dc2626;
+  --shadow:    0 1px 3px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04);
+  --shadow-lg: 0 4px 6px rgba(0,0,0,0.05), 0 20px 60px rgba(0,0,0,0.12), 0 8px 24px rgba(0,0,0,0.08);
+}
+
+/* ══════════════════════════════
+   DARK THEME
+══════════════════════════════ */
+.dark {
+  --bg:        #1c1f26;
+  --bg2:       #13161b;
+  --bg3:       #0d0f12;
+  --border:    #2a2f3a;
+  --border2:   #363d4a;
+  --muted:     #485263;
+  --subtle:    #6b7a8d;
+  --text:      #c8d4e0;
+  --bright:    #eef2f8;
+  --green:     #34d399;
+  --green-bg:  rgba(52,211,153,0.07);
+  --green-b:   rgba(52,211,153,0.2);
+  --yellow:    #fbbf24;
+  --yellow-bg: rgba(251,191,36,0.07);
+  --yellow-b:  rgba(251,191,36,0.2);
+  --blue:      #60a5fa;
+  --blue-bg:   rgba(96,165,250,0.07);
+  --blue-b:    rgba(96,165,250,0.2);
+  --purple:    #a78bfa;
+  --purple-bg: rgba(167,139,250,0.07);
+  --purple-b:  rgba(167,139,250,0.2);
+  --red:       #f87171;
+  --shadow:    0 1px 3px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.4);
+  --shadow-lg: 0 4px 6px rgba(0,0,0,0.3), 0 24px 64px rgba(0,0,0,0.7);
+}
+
+/* ══════════════════════════════
+   POPUP BASE
+══════════════════════════════ */
+.popup {
+  width: 360px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+
+/* macOS traffic lights */
+.traffic-lights {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.tl {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+.tl-red    { background: #ff5f57; }
+.tl-yellow { background: #febc2e; }
+.tl-green  { background: #28c840; }
+
+/* top bar */
+.popup-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+
+.popup-brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.brand-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.brand-name {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--bright);
+  letter-spacing: -0.2px;
+}
+
+.brand-name .accent { color: var(--green); }
+
+.popup-time {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+/* body */
+.popup-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* message */
+.app-msg {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+}
+
+.app-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--green-bg);
+  border: 1px solid var(--green-b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.msg-bubble {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 3px 10px 10px 10px;
+  padding: 9px 12px;
+  flex: 1;
+}
+
+.msg-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.msg-text .chip {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  background: var(--green-bg);
+  color: var(--green);
+  border: 1px solid var(--green-b);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+/* mood */
+.mood-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.mood-row {
+  display: flex;
+  gap: 5px;
+}
+
+.mood-btn {
+  flex: 1;
+  padding: 7px 4px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+}
+
+.mood-btn.sel {
+  border-color: var(--green-b);
+  background: var(--green-bg);
+}
+
+.mood-emoji { font-size: 16px; }
+
+.mood-text {
+  font-family: 'Geist Mono', monospace;
+  font-size: 8px;
+  color: var(--muted);
+  letter-spacing: 0.3px;
+}
+
+.mood-btn.sel .mood-text { color: var(--green); }
+
+/* input area */
+.input-area {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.input-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.input-fake {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--subtle);
+  font-style: italic;
+}
+
+.cursor {
+  display: inline-block;
+  width: 1.5px;
+  height: 13px;
+  background: var(--green);
+  margin-left: 1px;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* note */
+.note-card {
+  background: var(--yellow-bg);
+  border: 1px solid var(--yellow-b);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.note-icon { font-size: 13px; margin-top: 1px; }
+
+.note-inner { flex: 1; }
+
+.note-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 3px;
+  opacity: 0.8;
+}
+
+.note-text {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+/* actions */
+.popup-actions {
+  padding: 0 14px 14px;
+  display: flex;
+  gap: 6px;
+}
+
+.btn-ghost {
+  flex: 1;
+  padding: 8px;
+  background: transparent;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.btn-main {
+  flex: 2;
+  padding: 8px;
+  background: var(--green);
+  border: none;
+  border-radius: 8px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.dark .btn-main { color: #0a1a10; }
+
+/* ══════════════════════════════
+   MORNING POPUP
+══════════════════════════════ */
+.morning-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+
+.morning-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.morning-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--bright);
+  letter-spacing: -0.3px;
+}
+
+.morning-sub {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+.streak-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--yellow-bg);
+  border: 1px solid var(--yellow-b);
+  border-radius: 20px;
+  padding: 4px 10px;
+}
+
+.streak-text {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--yellow);
+  font-weight: 500;
+}
+
+/* yesterday note */
+.yday-note {
+  background: var(--purple-bg);
+  border: 1px solid var(--purple-b);
+  border-left: 3px solid var(--purple);
+  border-radius: 0 10px 10px 0;
+  padding: 10px 12px;
+}
+
+.yday-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.yday-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--purple);
+  opacity: 0.8;
+}
+
+.yday-date {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+}
+
+.yday-text {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.yday-text code {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  background: var(--purple-bg);
+  color: var(--purple);
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid var(--purple-b);
+}
+
+/* mood yesterday */
+.mood-yday {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.mood-yday-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.mood-yday-val {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  color: var(--subtle);
+}
+
+/* health chips */
+.health-row {
+  display: flex;
+  gap: 5px;
+}
+
+.health-chip {
+  flex: 1;
+  padding: 8px 6px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.health-icon { font-size: 15px; }
+
+.health-text {
+  font-family: 'Geist Mono', monospace;
+  font-size: 8px;
+  color: var(--muted);
+  text-align: center;
+  letter-spacing: 0.3px;
+  line-height: 1.3;
+}
+
+/* ══════════════════════════════
+   REMINDER POPUP
+══════════════════════════════ */
+.reminder {
+  width: 300px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.reminder-body {
+  padding: 14px 14px 10px;
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+}
+
+.reminder-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--blue-bg);
+  border: 1px solid var(--blue-b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+
+.reminder-content { flex: 1; }
+
+.reminder-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--bright);
+  letter-spacing: -0.2px;
+  margin-bottom: 3px;
+}
+
+.reminder-sub {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.reminder-sub em {
+  color: var(--blue);
+  font-style: normal;
+}
+
+.reminder-actions {
+  padding: 0 14px 12px;
+  display: flex;
+  gap: 5px;
+}
+
+.r-btn {
+  flex: 1;
+  padding: 6px;
+  border-radius: 7px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  border: 1px solid var(--border2);
+  background: var(--bg2);
+  color: var(--muted);
+}
+
+.r-btn.ok {
+  background: var(--blue-bg);
+  border-color: var(--blue-b);
+  color: var(--blue);
+}
+
+/* ══════════════════════════════
+   LOGO SECTION
+══════════════════════════════ */
+.logos-row {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.logo-card {
+  padding: 32px 40px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.logo-card.light {
+  background: #fff;
+  border: 1px solid #e2e5ea;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.logo-card.dark {
+  background: #1c1f26;
+  border: 1px solid #2a2f3a;
+}
+
+.logo-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.logo-card.light .logo-mark {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+.logo-card.dark .logo-mark {
+  background: rgba(52,211,153,0.07);
+  border: 1px solid rgba(52,211,153,0.2);
+}
+
+.logo-word {
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+  font-size: 28px;
+  letter-spacing: -0.8px;
+  line-height: 1;
+}
+
+.logo-card.light .logo-word { color: #111827; }
+.logo-card.dark .logo-word  { color: #eef2f8; }
+
+.logo-word .accent-light { color: #16a34a; }
+.logo-word .accent-dark  { color: #34d399; }
+
+.logo-sub {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.logo-card.light .logo-sub { color: #8a96a6; }
+.logo-card.dark .logo-sub  { color: #485263; }
+
+.logo-pill {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.logo-card.light .logo-pill {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+.logo-card.dark .logo-pill {
+  background: rgba(52,211,153,0.07);
+  color: #34d399;
+  border: 1px solid rgba(52,211,153,0.2);
+}
+
+</style>
+</head>
+<body>
+
+<!-- LOGO -->
+<p class="section-label">Identidade Visual</p>
+<div class="logos-row">
+  <div class="logo-card light">
+    <div class="logo-mark">🌿</div>
+    <div class="logo-word">dev<span class="accent-light">log</span></div>
+    <div class="logo-sub">saúde pra devs</div>
+    <div class="logo-pill">v0.1-beta</div>
+  </div>
+  <div class="logo-card dark">
+    <div class="logo-mark">🌿</div>
+    <div class="logo-word">dev<span class="accent-dark">log</span></div>
+    <div class="logo-sub">saúde pra devs</div>
+    <div class="logo-pill">v0.1-beta</div>
+  </div>
+</div>
+
+<!-- LIGHT THEME -->
+<p class="section-label">Tema Claro</p>
+<div class="theme-row">
+
+  <!-- FIM DO DIA LIGHT -->
+  <div class="theme-col">
+    <span class="theme-tag light">fim do dia</span>
+    <div class="popup light">
+      <div class="popup-topbar">
+        <div class="traffic-lights">
+          <div class="tl tl-red"></div>
+          <div class="tl tl-yellow"></div>
+          <div class="tl tl-green"></div>
+        </div>
+        <div class="popup-brand">
+          <div class="brand-dot"></div>
+          <div class="brand-name">dev<span class="accent">log</span></div>
+        </div>
+        <div class="popup-time">18:03</div>
+      </div>
+
+      <div class="popup-body">
+        <div class="app-msg">
+          <div class="app-avatar">🤖</div>
+          <div class="msg-bubble">
+            <div class="msg-text">
+              eai, sobreviveu? 👀 foram <span class="chip">7h42</span> de tela hoje. como foi?
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="mood-label">humor do dia</div>
+          <div class="mood-row">
+            <div class="mood-btn"><span class="mood-emoji">🔥</span><span class="mood-text">flow</span></div>
+            <div class="mood-btn sel"><span class="mood-emoji">😤</span><span class="mood-text">frustrado</span></div>
+            <div class="mood-btn"><span class="mood-emoji">😴</span><span class="mood-text">cansado</span></div>
+            <div class="mood-btn"><span class="mood-emoji">😎</span><span class="mood-text">ótimo</span></div>
+          </div>
+        </div>
+
+        <div class="input-area">
+          <div class="input-label">desabafe</div>
+          <div class="input-fake">aquele bug do websocket me comeu 3h...<span class="cursor"></span></div>
+        </div>
+
+        <div class="note-card">
+          <div class="note-icon">📌</div>
+          <div class="note-inner">
+            <div class="note-label">recado pro amanhã</div>
+            <div class="note-text">PR do Lucas antes de qualquer coisa</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="popup-actions">
+        <button class="btn-ghost">pular</button>
+        <button class="btn-main">salvar 🌙</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOM DIA LIGHT -->
+  <div class="theme-col">
+    <span class="theme-tag light">bom dia</span>
+    <div class="popup light">
+      <div class="popup-topbar">
+        <div class="traffic-lights">
+          <div class="tl tl-red"></div>
+          <div class="tl tl-yellow"></div>
+          <div class="tl tl-green"></div>
+        </div>
+        <div class="popup-brand">
+          <div class="brand-dot"></div>
+          <div class="brand-name">dev<span class="accent">log</span></div>
+        </div>
+        <div class="popup-time">09:01</div>
+      </div>
+
+      <div class="morning-header">
+        <div class="morning-left">
+          <div class="morning-title">bom dia, Allison 👋</div>
+          <div class="morning-sub">seg, 19 mai · 09:01</div>
+        </div>
+        <div class="streak-badge">
+          <span>🔥</span>
+          <span class="streak-text">7 dias</span>
+        </div>
+      </div>
+
+      <div class="popup-body" style="padding-top:14px;">
+        <div class="yday-note">
+          <div class="yday-header">
+            <span class="yday-label">você deixou ontem</span>
+            <span class="yday-date">sex 18:03</span>
+          </div>
+          <div class="yday-text">PR do Lucas antes de qualquer coisa — <code>websocket</code> ainda quebrando em prod</div>
+        </div>
+
+        <div class="mood-yday">
+          <span class="mood-yday-label">humor de ontem</span>
+          <div class="mood-yday-val"><span>😤</span><span>frustrado</span></div>
+        </div>
+
+        <div class="health-row">
+          <div class="health-chip"><span class="health-icon">💧</span><span class="health-text">beba água primeiro</span></div>
+          <div class="health-chip"><span class="health-icon">🧘</span><span class="health-text">2min respiro</span></div>
+          <div class="health-chip"><span class="health-icon">👀</span><span class="health-text">olhe longe 20s</span></div>
+        </div>
+      </div>
+
+      <div class="popup-actions">
+        <button class="btn-ghost">snooze</button>
+        <button class="btn-main">bora codar 🚀</button>
+      </div>
+    </div>
+
+    <span class="theme-tag light" style="margin-top:4px;">lembrete</span>
+    <div class="reminder light">
+      <div class="reminder-body">
+        <div class="reminder-icon">💧</div>
+        <div class="reminder-content">
+          <div class="reminder-title">hidratação: zero detectado</div>
+          <div class="reminder-sub"><em>2h17min</em> sem pausar. levanta, bebe água, volta.</div>
+        </div>
+      </div>
+      <div class="reminder-actions">
+        <button class="r-btn">+15min</button>
+        <button class="r-btn">ignorar</button>
+        <button class="r-btn ok">feito ✓</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- DARK THEME -->
+<p class="section-label">Tema Escuro</p>
+<div class="theme-row">
+
+  <!-- FIM DO DIA DARK -->
+  <div class="theme-col">
+    <span class="theme-tag dark">fim do dia</span>
+    <div class="popup dark">
+      <div class="popup-topbar">
+        <div class="traffic-lights">
+          <div class="tl tl-red"></div>
+          <div class="tl tl-yellow"></div>
+          <div class="tl tl-green"></div>
+        </div>
+        <div class="popup-brand">
+          <div class="brand-dot"></div>
+          <div class="brand-name">dev<span class="accent">log</span></div>
+        </div>
+        <div class="popup-time">18:03</div>
+      </div>
+
+      <div class="popup-body">
+        <div class="app-msg">
+          <div class="app-avatar">🤖</div>
+          <div class="msg-bubble">
+            <div class="msg-text">eai, sobreviveu? 👀 foram <span class="chip">7h42</span> de tela hoje. como foi?</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="mood-label">humor do dia</div>
+          <div class="mood-row">
+            <div class="mood-btn"><span class="mood-emoji">🔥</span><span class="mood-text">flow</span></div>
+            <div class="mood-btn sel"><span class="mood-emoji">😤</span><span class="mood-text">frustrado</span></div>
+            <div class="mood-btn"><span class="mood-emoji">😴</span><span class="mood-text">cansado</span></div>
+            <div class="mood-btn"><span class="mood-emoji">😎</span><span class="mood-text">ótimo</span></div>
+          </div>
+        </div>
+
+        <div class="input-area">
+          <div class="input-label">desabafe</div>
+          <div class="input-fake">aquele bug do websocket me comeu 3h...<span class="cursor"></span></div>
+        </div>
+
+        <div class="note-card">
+          <div class="note-icon">📌</div>
+          <div class="note-inner">
+            <div class="note-label">recado pro amanhã</div>
+            <div class="note-text">PR do Lucas antes de qualquer coisa</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="popup-actions">
+        <button class="btn-ghost">pular</button>
+        <button class="btn-main">salvar 🌙</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOM DIA DARK -->
+  <div class="theme-col">
+    <span class="theme-tag dark">bom dia</span>
+    <div class="popup dark">
+      <div class="popup-topbar">
+        <div class="traffic-lights">
+          <div class="tl tl-red"></div>
+          <div class="tl tl-yellow"></div>
+          <div class="tl tl-green"></div>
+        </div>
+        <div class="popup-brand">
+          <div class="brand-dot"></div>
+          <div class="brand-name">dev<span class="accent">log</span></div>
+        </div>
+        <div class="popup-time">09:01</div>
+      </div>
+
+      <div class="morning-header">
+        <div class="morning-left">
+          <div class="morning-title">bom dia, Allison 👋</div>
+          <div class="morning-sub">seg, 19 mai · 09:01</div>
+        </div>
+        <div class="streak-badge">
+          <span>🔥</span>
+          <span class="streak-text">7 dias</span>
+        </div>
+      </div>
+
+      <div class="popup-body" style="padding-top:14px;">
+        <div class="yday-note">
+          <div class="yday-header">
+            <span class="yday-label">você deixou ontem</span>
+            <span class="yday-date">sex 18:03</span>
+          </div>
+          <div class="yday-text">PR do Lucas antes de qualquer coisa — <code>websocket</code> ainda quebrando em prod</div>
+        </div>
+
+        <div class="mood-yday">
+          <span class="mood-yday-label">humor de ontem</span>
+          <div class="mood-yday-val"><span>😤</span><span>frustrado</span></div>
+        </div>
+
+        <div class="health-row">
+          <div class="health-chip"><span class="health-icon">💧</span><span class="health-text">beba água primeiro</span></div>
+          <div class="health-chip"><span class="health-icon">🧘</span><span class="health-text">2min respiro</span></div>
+          <div class="health-chip"><span class="health-icon">👀</span><span class="health-text">olhe longe 20s</span></div>
+        </div>
+      </div>
+
+      <div class="popup-actions">
+        <button class="btn-ghost">snooze</button>
+        <button class="btn-main">bora codar 🚀</button>
+      </div>
+    </div>
+
+    <span class="theme-tag dark" style="margin-top:4px;">lembrete</span>
+    <div class="reminder dark">
+      <div class="reminder-body">
+        <div class="reminder-icon">💧</div>
+        <div class="reminder-content">
+          <div class="reminder-title">hidratação: zero detectado</div>
+          <div class="reminder-sub"><em>2h17min</em> sem pausar. levanta, bebe água, volta.</div>
+        </div>
+      </div>
+      <div class="reminder-actions">
+        <button class="r-btn">+15min</button>
+        <button class="r-btn">ignorar</button>
+        <button class="r-btn ok">feito ✓</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

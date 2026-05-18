@@ -1,0 +1,137 @@
+{
+  "brand": "inie",
+  "common": {
+    "skip": "pular",
+    "save": "salvar",
+    "cancel": "cancelar",
+    "close": "fechar",
+    "loading": "carregando..."
+  },
+  "endofday": {
+    "greeting": "eai, sobreviveu? 👀 foram <0>{{time}}</0> de tela hoje. como foi?",
+    "moodLabel": "humor do dia",
+    "journalLabel": "desabafe",
+    "journalPlaceholder": "como foi o dia hoje?",
+    "noteLabel": "recado pro amanhã",
+    "notePlaceholder": "uma coisa pra lembrar amanhã...",
+    "save": "salvar 🌙",
+    "addExtras": "+ adicionar desabafo ou recado",
+    "hideExtras": "− esconder",
+    "extrasHint": "opcionais — só o humor já vale"
+  },
+  "mood": {
+    "flow": "flow",
+    "frustrated": "frustrado",
+    "tired": "cansado",
+    "great": "ótimo"
+  },
+  "morning": {
+    "greeting": "bom dia, {{name}} 👋",
+    "greetingNoName": "bom dia 👋",
+    "streakDays": "{{count}} dias",
+    "ydayLabel": "você deixou ontem",
+    "noYday": "nenhum recado de ontem — começo limpo ✨",
+    "ydayMoodLabel": "humor de ontem",
+    "noYdayMood": "—",
+    "lastDays": "últimos 7 dias",
+    "noDay": "sem registro",
+    "health": {
+      "water": "beba água primeiro",
+      "breathe": "2min respiro",
+      "eyes": "olhe longe 20s"
+    },
+    "snooze": "snooze",
+    "go": "bora codar 🚀"
+  },
+  "focus": {
+    "question": "qual a tarefa mais importante hoje?",
+    "placeholder": "uma linha, sem pressão",
+    "modeToggle": "modo foco · {{min}}min sem interrupções",
+    "skip": "pular",
+    "start": "começar 🚀",
+    "todayLabel": "foco de hoje",
+    "completedQ": "completou?",
+    "yes": "sim ✓",
+    "no": "não rolou"
+  },
+  "reminder": {
+    "snooze15": "+15min",
+    "ignore": "ignorar",
+    "done": "feito ✓",
+    "justNow": "começo recente",
+    "water": {
+      "title": "hidratação: bora beber água 💧",
+      "sub": "<0>{{duration}}</0> sem pausar. levanta, bebe um copo, volta.",
+      "subFresh": "lembrete de hidratação. um copo agora cai bem."
+    },
+    "eyes": {
+      "title": "descanso dos olhos 👀",
+      "sub": "<0>{{duration}}</0> de tela. olha pra longe por 20s — janela, parede, qualquer coisa.",
+      "subFresh": "olha pra longe por 20s — alivia a vista antes que ela peça."
+    },
+    "breathe": {
+      "title": "2 minutinhos de respiro 🧘",
+      "sub": "<0>{{duration}}</0> sem pausa. inspira 4s, segura 4s, solta 6s.",
+      "subFresh": "inspira 4s, segura 4s, solta 6s. três rounds e volta."
+    }
+  },
+  "settings": {
+    "title": "configurações",
+    "eodTime": "fim do dia",
+    "morningTime": "bom dia",
+    "reminderInterval": "lembrete a cada (min)",
+    "focusModeMin": "duração do modo foco (min)",
+    "sound": "som",
+    "soundOn": "ligado",
+    "soundOff": "desligado",
+    "theme": "tema",
+    "themeSystem": "sistema",
+    "themeLight": "claro",
+    "themeDark": "escuro",
+    "language": "idioma",
+    "skipWeekends": "pular fim de semana",
+    "skipWeekendsOn": "sim — sábado e domingo de folga",
+    "skipWeekendsOff": "não — rotina todos os dias",
+    "nativeNotifications": "notificação do sistema",
+    "nativeNotificationsOn": "ligado (recomendado em fullscreen)",
+    "nativeNotificationsOff": "desligado",
+    "support": {
+      "title": "apoiar",
+      "line": "se o rootinie te ajudou, considera pagar um café",
+      "cta": "☕ apoiar"
+    },
+    "sync": {
+      "title": "sincronização",
+      "loggedOutHint": "entre pra sincronizar entre dispositivos",
+      "notConfigured": "supabase não configurado em .env",
+      "email": "e-mail",
+      "password": "senha",
+      "signIn": "entrar",
+      "signUp": "criar conta",
+      "signOut": "sair",
+      "switchToSignUp": "não tem conta? criar uma",
+      "switchToSignIn": "já tem conta? entrar",
+      "loggedInAs": "logado como {{email}}",
+      "lastSync": "última sincronização: {{when}}",
+      "neverSynced": "nunca sincronizado",
+      "pending": "{{count}} entrada(s) pendente(s)",
+      "online": "online",
+      "offline": "offline",
+      "syncNow": "sincronizar agora"
+    }
+  },
+  "onboarding": {
+    "title": "bem-vindo ao rootinie 🌿",
+    "sub": "uma rotina rápida de saúde pra devs",
+    "nameLabel": "como te chamamos?",
+    "namePlaceholder": "seu nome ou apelido",
+    "languageLabel": "idioma",
+    "finish": "começar"
+  },
+  "time": {
+    "justNow": "agora",
+    "minAgo": "{{count}} min atrás",
+    "hAgo": "{{count}}h atrás",
+    "dAgo": "{{count}}d atrás"
+  }
+}
