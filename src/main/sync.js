@@ -139,20 +139,29 @@ export async function pullAll() {
 
   const entries = store.get('entries');
   let pulled = 0;
+  let skippedUnsynced = 0;
   for (const row of data || []) {
     const local = entries[row.date];
     const remote = fromRow(row);
+
+    if (local && local.syncedAt === null && (local.mood || (local.journal && local.journal.trim()) || (local.tomorrowNote && local.tomorrowNote.trim()))) {
+      skippedUnsynced++;
+      continue;
+    }
+
     entries[row.date] = {
       ...(local || {}),
       ...remote,
       screenTimeSec: local?.screenTimeSec || 0,
-      healthChecks: local?.healthChecks || []
+      healthChecks: local?.healthChecks || [],
+      focusTask: local?.focusTask ?? null,
+      focusCompleted: local?.focusCompleted ?? null
     };
     pulled++;
   }
   store.set('entries', entries);
   patchState({ lastSyncAt: new Date().toISOString() });
-  return { pulled, errors: [] };
+  return { pulled, errors: [], skippedUnsynced };
 }
 
 export async function syncNow() {

@@ -49,8 +49,21 @@ export function getSettings() {
   return store.get('settings');
 }
 
+function clampSettings(patch) {
+  const out = { ...patch };
+  if (out.reminderIntervalMin !== undefined) {
+    const n = Number(out.reminderIntervalMin);
+    out.reminderIntervalMin = Number.isFinite(n) ? Math.max(5, Math.min(480, n)) : 90;
+  }
+  if (out.focusModeMin !== undefined) {
+    const n = Number(out.focusModeMin);
+    out.focusModeMin = Number.isFinite(n) ? Math.max(15, Math.min(240, n)) : 90;
+  }
+  return out;
+}
+
 export function setSettings(patch) {
-  const merged = { ...store.get('settings'), ...patch };
+  const merged = { ...store.get('settings'), ...clampSettings(patch) };
   store.set('settings', merged);
   return merged;
 }
@@ -185,10 +198,10 @@ export function saveEndOfDay({ mood, journal, tomorrowNote }) {
   const skipWeekends = getSettings().skipWeekends;
   const expectedPrev = previousWorkdayISO(new Date(), skipWeekends);
 
-  let streak;
-  if (state.lastLogDate === expectedPrev) streak = (state.streak || 0) + 1;
-  else if (state.lastLogDate === date) streak = state.streak || 1;
-  else streak = 1;
+  const hasMeaningfulData =
+    Boolean(mood) ||
+    Boolean(journal && journal.trim()) ||
+    Boolean(tomorrowNote && tomorrowNote.trim());
 
   const entry = upsertEntry(date, {
     mood,
@@ -196,8 +209,18 @@ export function saveEndOfDay({ mood, journal, tomorrowNote }) {
     tomorrowNote,
     syncedAt: null
   });
+
+  if (!hasMeaningfulData) {
+    return { entry, streak: state.streak || 0, counted: false };
+  }
+
+  let streak;
+  if (state.lastLogDate === expectedPrev) streak = (state.streak || 0) + 1;
+  else if (state.lastLogDate === date) streak = state.streak || 1;
+  else streak = 1;
+
   patchState({ streak, lastLogDate: date });
-  return { entry, streak };
+  return { entry, streak, counted: true };
 }
 
 export function bumpScreenTime(seconds) {

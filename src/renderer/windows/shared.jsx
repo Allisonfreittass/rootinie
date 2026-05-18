@@ -1,17 +1,26 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
+const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA', 'SELECT']);
+
 export function useEscapeToClose() {
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === 'Escape') window.devlog.window.close();
+      if (e.key !== 'Escape') return;
+      const active = document.activeElement;
+      if (active && EDITABLE_TAGS.has(active.tagName)) {
+        active.blur();
+        e.preventDefault();
+        return;
+      }
+      window.devlog.window.close();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 }
 
-export function TopBar({ time, showBrand = true, showSettings = true }) {
+export function TopBar({ time, showBrand = true, showSettings = true, showClose = true }) {
   const { t } = useTranslation();
   return (
     <div className="popup-topbar">
@@ -38,13 +47,15 @@ export function TopBar({ time, showBrand = true, showSettings = true }) {
               ⚙
             </button>
           )}
-          <button
-            className="win-btn close"
-            aria-label="close"
-            onClick={() => window.devlog.window.close()}
-          >
-            ✕
-          </button>
+          {showClose && (
+            <button
+              className="win-btn close"
+              aria-label="close"
+              onClick={() => window.devlog.window.close()}
+            >
+              ✕
+            </button>
+          )}
         </div>
       </div>
     </div>

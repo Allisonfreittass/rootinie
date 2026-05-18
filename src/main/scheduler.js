@@ -14,6 +14,7 @@ let eodTimer = null;
 let morningTimer = null;
 let reminderTimer = null;
 let focusEndTimer = null;
+let snoozeTimer = null;
 let reminderRotation = 0;
 
 const REMINDER_TYPES = ['water', 'eyes', 'breathe'];
@@ -157,6 +158,7 @@ export function maybeShowMorningOnLaunch() {
 }
 
 export function init() {
+  if (snoozeTimer) { clearTimeout(snoozeTimer); snoozeTimer = null; }
   scheduleEod();
   scheduleMorning();
   scheduleReminder();
@@ -168,8 +170,10 @@ export function reschedule() {
 
 export function snoozeReminder(min) {
   if (reminderTimer) clearInterval(reminderTimer);
+  if (snoozeTimer) clearTimeout(snoozeTimer);
   const delayMs = min * 60 * 1000;
-  setTimeout(() => {
+  snoozeTimer = setTimeout(() => {
+    snoozeTimer = null;
     fireReminder();
     scheduleReminder();
   }, delayMs);
@@ -180,5 +184,6 @@ export function stop() {
   if (morningTimer) clearTimeout(morningTimer);
   if (reminderTimer) clearInterval(reminderTimer);
   if (focusEndTimer) clearTimeout(focusEndTimer);
-  eodTimer = morningTimer = reminderTimer = focusEndTimer = null;
+  if (snoozeTimer) clearTimeout(snoozeTimer);
+  eodTimer = morningTimer = reminderTimer = focusEndTimer = snoozeTimer = null;
 }

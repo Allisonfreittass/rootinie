@@ -98,16 +98,27 @@ export default function EndOfDay() {
     return () => clearInterval(tick);
   }, []);
 
+  const hasData =
+    Boolean(mood) ||
+    Boolean(journal && journal.trim()) ||
+    Boolean(tomorrowNote && tomorrowNote.trim()) ||
+    focusCompleted !== null;
+
   async function save() {
     setSaving(true);
-    const result = await window.devlog.entry.saveEod({
-      mood,
-      journal,
-      tomorrowNote,
-      focusCompleted
-    });
-    setSaveResult(result);
-    setSaving(false);
+    try {
+      const result = await window.devlog.entry.saveEod({
+        mood,
+        journal,
+        tomorrowNote,
+        focusCompleted
+      });
+      setSaveResult(result);
+    } catch (err) {
+      console.error('[eod] save failed:', err);
+    } finally {
+      setSaving(false);
+    }
   }
 
   if (saveResult) {
@@ -246,7 +257,7 @@ export default function EndOfDay() {
         <button className="btn-ghost" onClick={() => window.devlog.window.close()}>
           {t('common.skip')}
         </button>
-        <button className="btn-main" onClick={save} disabled={saving}>
+        <button className="btn-main" onClick={save} disabled={saving || !hasData}>
           {t('endofday.save')}
         </button>
       </div>
