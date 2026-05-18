@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TopBar, nowHHMM, moodMeta, playStartChime } from './shared.jsx';
+import { TopBar, nowHHMM, moodMeta, playStartChime, useEscapeToClose } from './shared.jsx';
 
 const HEALTH = [
   { id: 'water',   icon: '💧' },
@@ -45,11 +45,14 @@ function MoodStrip({ entries, t, locale }) {
   );
 }
 
-function MorningView({ user, streak, yEntry, recent, t, i18n, onNext }) {
+function MorningView({ user, streak, yEntry, recent, focusToday, t, i18n, onNext }) {
   const yMood = yEntry?.mood ? moodMeta(yEntry.mood) : null;
   const greeting = user.name
     ? t('morning.greeting', { name: user.name })
     : t('morning.greetingNoName');
+  const hasFocus = Boolean(focusToday?.task);
+  const isFirstDay =
+    streak === 0 && !yEntry && (!recent || recent.every((e) => !e.mood));
 
   return (
     <>
@@ -58,32 +61,62 @@ function MorningView({ user, streak, yEntry, recent, t, i18n, onNext }) {
           <div className="morning-title">{greeting}</div>
           <div className="morning-sub">{formatLongDate(i18n.language)}</div>
         </div>
-        <div className="streak-badge">
-          <span>🔥</span>
-          <span className="streak-text">{t('morning.streakDays', { count: streak })}</span>
-        </div>
+        {isFirstDay ? (
+          <div className="streak-badge first-day">
+            <span>🌱</span>
+            <span className="streak-text">{t('morning.firstDayChip')}</span>
+          </div>
+        ) : (
+          <div className="streak-badge">
+            <span>🔥</span>
+            <span className="streak-text">{t('morning.streakDays', { count: streak })}</span>
+          </div>
+        )}
       </div>
 
+      {hasFocus && (
+        <div className="focus-active-banner">
+          <span className="focus-active-icon">🎯</span>
+          <div className="focus-active-text">
+            <div className="focus-active-label">{t('morning.focusActiveLabel')}</div>
+            <div className="focus-active-task">{focusToday.task}</div>
+          </div>
+          {focusToday.active && (
+            <span className="focus-active-chip">{t('morning.focusModeOn')}</span>
+          )}
+        </div>
+      )}
+
       <div className="popup-body" style={{ paddingTop: 14 }}>
-        <MoodStrip entries={recent} t={t} locale={i18n.language} />
+        {isFirstDay ? (
+          <div className="welcome-card">
+            <div className="welcome-emoji">👋</div>
+            <div className="welcome-title">{t('morning.welcomeTitle')}</div>
+            <div className="welcome-text">{t('morning.welcomeText')}</div>
+          </div>
+        ) : (
+          <>
+            <MoodStrip entries={recent} t={t} locale={i18n.language} />
 
-        <div className="yday-note">
-          <div className="yday-header">
-            <span className="yday-label">{t('morning.ydayLabel')}</span>
-            <span className="yday-date">{yEntry?.date || ''}</span>
-          </div>
-          <div className="yday-text">
-            {yEntry?.tomorrowNote || t('morning.noYday')}
-          </div>
-        </div>
+            <div className="yday-note">
+              <div className="yday-header">
+                <span className="yday-label">{t('morning.ydayLabel')}</span>
+                <span className="yday-date">{yEntry?.date || ''}</span>
+              </div>
+              <div className="yday-text">
+                {yEntry?.tomorrowNote || t('morning.noYday')}
+              </div>
+            </div>
 
-        <div className="mood-yday">
-          <span className="mood-yday-label">{t('morning.ydayMoodLabel')}</span>
-          <div className="mood-yday-val">
-            <span>{yMood?.emoji || '·'}</span>
-            <span>{yEntry?.mood ? t(`mood.${yEntry.mood}`) : t('morning.noYdayMood')}</span>
-          </div>
-        </div>
+            <div className="mood-yday">
+              <span className="mood-yday-label">{t('morning.ydayMoodLabel')}</span>
+              <div className="mood-yday-val">
+                <span>{yMood?.emoji || '·'}</span>
+                <span>{yEntry?.mood ? t(`mood.${yEntry.mood}`) : t('morning.noYdayMood')}</span>
+              </div>
+            </div>
+          </>
+        )}
 
         <div className="health-row">
           {HEALTH.map((h) => (
@@ -98,15 +131,12 @@ function MorningView({ user, streak, yEntry, recent, t, i18n, onNext }) {
       <div className="popup-actions">
         <button
           className="btn-ghost"
-          onClick={() => {
-            window.devlog.reminder.snooze(15);
-            window.devlog.window.close();
-          }}
+          onClick={() => window.devlog.window.close()}
         >
-          {t('morning.snooze')}
+          {t('morning.later')}
         </button>
         <button className="btn-main" onClick={onNext}>
-          {t('morning.go')}
+          {hasFocus ? t('morning.goAgain') : t('morning.go')}
         </button>
       </div>
     </>
@@ -171,11 +201,13 @@ function FocusView({ t, onDone }) {
 }
 
 export default function Morning() {
+  useEscapeToClose();
   const { t, i18n } = useTranslation();
   const [user, setUser] = useState({ name: '' });
   const [streak, setStreak] = useState(0);
   const [yEntry, setYEntry] = useState(null);
   const [recent, setRecent] = useState([]);
+  const [focusToday, setFocusToday] = useState(null);
   const [time, setTime] = useState(nowHHMM());
   const [view, setView] = useState('morning');
 
@@ -184,6 +216,7 @@ export default function Morning() {
     window.devlog.stats.streak().then(setStreak);
     window.devlog.entry.yesterday().then(setYEntry);
     window.devlog.stats.recent(7).then(setRecent);
+    window.devlog.focus.status().then(setFocusToday);
     const tick = setInterval(() => setTime(nowHHMM()), 30000);
     return () => clearInterval(tick);
   }, []);
@@ -199,6 +232,7 @@ export default function Morning() {
         {view === 'morning' ? (
           <MorningView
             user={user} streak={streak} yEntry={yEntry} recent={recent}
+            focusToday={focusToday}
             t={t} i18n={i18n}
             onNext={() => setView('focus')}
           />

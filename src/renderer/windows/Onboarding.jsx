@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TopBar, nowHHMM } from './shared.jsx';
+import { TopBar, nowHHMM, useEscapeToClose } from './shared.jsx';
 
 export default function Onboarding() {
+  useEscapeToClose();
   const { t, i18n } = useTranslation();
   const [name, setName] = useState('');
   const [language, setLanguage] = useState(i18n.language || 'pt-BR');
@@ -35,6 +36,7 @@ export default function Onboarding() {
       reminderIntervalMin,
       language
     });
+    await window.devlog.window.open('morning');
     window.devlog.window.close();
   }
 

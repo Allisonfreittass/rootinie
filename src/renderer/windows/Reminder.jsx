@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { playReminderChime, useEscapeToClose } from './shared.jsx';
 
 const ICONS = { water: '💧', eyes: '👀', breathe: '🧘' };
 const ALLOWED = ['water', 'eyes', 'breathe'];
@@ -21,9 +22,15 @@ function formatDuration(sec) {
 }
 
 export default function Reminder() {
+  useEscapeToClose();
   const { t } = useTranslation();
   const { type, idleSec } = readParams();
   const fresh = idleSec < 60;
+
+  useEffect(() => {
+    const id = setTimeout(() => { playReminderChime(); }, 120);
+    return () => clearTimeout(id);
+  }, []);
 
   const act = (action) => {
     window.devlog.entry.health(type, action);

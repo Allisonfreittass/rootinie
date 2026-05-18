@@ -490,6 +490,40 @@ html.dark .btn-main { color: #0a1a10; }
   font-variant-numeric: tabular-nums;
 }
 
+.streak-badge.first-day {
+  background: var(--green-bg);
+  border-color: var(--green-b);
+}
+.streak-badge.first-day .streak-text { color: var(--green); }
+
+.welcome-card {
+  padding: 20px 18px 22px;
+  background: var(--green-bg);
+  border: 1px solid var(--green-b);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.welcome-emoji { font-size: 32px; line-height: 1; }
+
+.welcome-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--bright);
+  letter-spacing: -0.3px;
+}
+
+.welcome-text {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text);
+  max-width: 320px;
+}
+
 /* yesterday note */
 .yday-note {
   background: var(--purple-bg);
@@ -599,6 +633,65 @@ html.dark .btn-main { color: #0a1a10; }
   font-weight: 500;
 }
 
+/* focus active banner (when today's focus already set) */
+.focus-active-banner {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin: 0 18px 0;
+  padding: 11px 13px;
+  background: var(--green-bg);
+  border: 1px solid var(--green-b);
+  border-left: 3px solid var(--green);
+  border-radius: 0 10px 10px 0;
+}
+
+.focus-active-icon {
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.focus-active-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.focus-active-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--green);
+  opacity: 0.85;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.focus-active-task {
+  font-size: 13px;
+  color: var(--bright);
+  font-weight: 500;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.focus-active-chip {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  color: var(--green);
+  background: var(--bg);
+  border: 1px solid var(--green-b);
+  padding: 3px 7px;
+  border-radius: 999px;
+  font-weight: 500;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 /* mood strip (last 7 days) */
 .mood-strip {
   display: flex;
@@ -643,7 +736,16 @@ html.dark .btn-main { color: #0a1a10; }
   background: var(--bg);
 }
 
-.mood-pip.empty .mood-pip-emoji { color: var(--muted); opacity: 0.5; }
+.mood-pip.empty {
+  border: 1px dashed var(--border2);
+  background: transparent;
+}
+
+.mood-pip.empty .mood-pip-emoji {
+  color: var(--subtle);
+  opacity: 0.75;
+  font-size: 12px;
+}
 
 .mood-pip:hover { border-color: var(--border2); }
 
@@ -771,10 +873,10 @@ html.dark .btn-main { color: #0a1a10; }
 
 .r-btn {
   flex: 1;
-  padding: 8px;
+  padding: 10px;
   border-radius: 8px;
   font-family: 'Geist Mono', monospace;
-  font-size: 11px;
+  font-size: 12.5px;
   letter-spacing: 0.3px;
   cursor: pointer;
   border: 1px solid var(--border2);
@@ -928,6 +1030,63 @@ html.dark .btn-main { color: #0a1a10; }
 .support-btn:hover { opacity: 0.92; }
 .support-btn:active { transform: scale(0.97); }
 html.dark .support-btn { color: #1a1206; }
+
+/* settings footer + version tag */
+.settings-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+  margin-top: 4px;
+  border-top: 1px solid var(--border);
+}
+
+.version-tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  opacity: 0.6;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--bg2);
+}
+
+/* save toast */
+.save-toast {
+  position: absolute;
+  left: 50%;
+  bottom: 70px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: var(--green);
+  color: #fff;
+  border-radius: 999px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  box-shadow: var(--shadow);
+  animation: toastIn 1400ms ease-out forwards;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.save-toast-check {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@keyframes toastIn {
+  0%   { opacity: 0; transform: translate(-50%, 6px); }
+  15%  { opacity: 1; transform: translate(-50%, 0); }
+  80%  { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -4px); }
+}
+
+html.dark .save-toast { color: #0a1a10; }
 
 /* ══════════════════════════════
    VIEW TRANSITION (Morning)

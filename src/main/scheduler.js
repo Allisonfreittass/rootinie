@@ -131,16 +131,8 @@ export function scheduleFocusEnd(untilIso) {
   }
   focusEndTimer = setTimeout(() => {
     setFocusModeUntil(null);
-    try {
-      if (Notification.isSupported()) {
-        new Notification({
-          title: '🌿 foco terminado',
-          body: 'hora de respirar — beba uma água, alongue',
-          icon: iconPath(),
-          silent: false
-        }).show();
-      }
-    } catch {}
+    openWindow('reminder', { type: 'breathe', idleSec: 0 });
+    fireNativeNotification('breathe');
   }, delay);
 }
 

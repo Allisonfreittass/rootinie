@@ -61,6 +61,7 @@ const api = {
     onStatus: sub('sync:status')
   },
   system: {
+    version: () => ipcRenderer.invoke('system:version'),
     openExternal: (url) => ipcRenderer.invoke('system:openExternal', url)
   }
 };

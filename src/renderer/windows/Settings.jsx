@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TopBar, nowHHMM, relativeTime } from './shared.jsx';
+import { TopBar, nowHHMM, relativeTime, useEscapeToClose } from './shared.jsx';
 
-const SUPPORT_URL = 'https://buymeacoffee.com/allisonfreitas';
+const SUPPORT_URL = 'https://buymeacoffee.com/allisonfreittass';
 
 function SupportSection() {
   const { t } = useTranslation();
@@ -151,18 +151,29 @@ function SyncSection() {
 }
 
 export default function Settings() {
+  useEscapeToClose();
   const { t, i18n } = useTranslation();
   const [settings, setSettings] = useState(null);
+  const [version, setVersion] = useState('');
+  const [savedAt, setSavedAt] = useState(0);
 
   useEffect(() => {
     window.devlog.settings.get().then(setSettings);
+    window.devlog.system.version().then(setVersion).catch(() => {});
   }, []);
 
   async function update(patch) {
     const next = await window.devlog.settings.set(patch);
     setSettings(next);
     if (patch.language) i18n.changeLanguage(patch.language);
+    setSavedAt(Date.now());
   }
+
+  useEffect(() => {
+    if (!savedAt) return;
+    const id = setTimeout(() => setSavedAt(0), 1400);
+    return () => clearTimeout(id);
+  }, [savedAt]);
 
   if (!settings) return null;
 
@@ -284,7 +295,18 @@ export default function Settings() {
 
         <SyncSection />
         <SupportSection />
+
+        <div className="settings-footer">
+          {version && <span className="version-tag">v{version}</span>}
+        </div>
       </div>
+
+      {savedAt > 0 && (
+        <div className="save-toast" key={savedAt}>
+          <span className="save-toast-check">✓</span>
+          {t('settings.saved')}
+        </div>
+      )}
 
       <div className="popup-actions">
         <button className="btn-main" onClick={() => window.devlog.window.close()}>

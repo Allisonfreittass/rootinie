@@ -9,6 +9,7 @@
   },
   "endofday": {
     "greeting": "eai, sobreviveu? 👀 foram <0>{{time}}</0> de tela hoje. como foi?",
+    "greetingShort": "dia leve hoje 🌤️ como foi?",
     "moodLabel": "humor do dia",
     "journalLabel": "desabafe",
     "journalPlaceholder": "como foi o dia hoje?",
@@ -28,7 +29,11 @@
   "morning": {
     "greeting": "bom dia, {{name}} 👋",
     "greetingNoName": "bom dia 👋",
-    "streakDays": "{{count}} dias",
+    "streakDays_one": "{{count}} dia",
+    "streakDays_other": "{{count}} dias",
+    "firstDayChip": "começo",
+    "welcomeTitle": "primeiro dia rodando 🌿",
+    "welcomeText": "respira, abre teu editor, e a gente conversa amanhã sobre como foi. boa codada.",
     "ydayLabel": "você deixou ontem",
     "noYday": "nenhum recado de ontem — começo limpo ✨",
     "ydayMoodLabel": "humor de ontem",
@@ -40,8 +45,11 @@
       "breathe": "2min respiro",
       "eyes": "olhe longe 20s"
     },
-    "snooze": "snooze",
-    "go": "bora codar 🚀"
+    "later": "ver depois",
+    "go": "bora codar 🚀",
+    "goAgain": "atualizar foco 🎯",
+    "focusActiveLabel": "codando hoje em",
+    "focusModeOn": "modo foco ligado"
   },
   "focus": {
     "question": "qual a tarefa mais importante hoje?",
@@ -77,6 +85,7 @@
   },
   "settings": {
     "title": "configurações",
+    "saved": "salvo",
     "eodTime": "fim do dia",
     "morningTime": "bom dia",
     "reminderInterval": "lembrete a cada (min)",

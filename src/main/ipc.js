@@ -140,6 +140,8 @@ export function registerIpc() {
   ipcMain.handle('sync:now', () => sync.syncNow());
   ipcMain.handle('sync:status', () => sync.getStatus());
 
+  ipcMain.handle('system:version', () => app.getVersion());
+
   ipcMain.handle('system:openExternal', (_e, url) => {
     if (typeof url !== 'string') return false;
     if (!/^https?:\/\//i.test(url)) return false;

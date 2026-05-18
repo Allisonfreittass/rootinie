@@ -35,6 +35,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate app icons (PNG + ICO from SVG)
+        run: node scripts/generate-icons.mjs
+
       - name: Build renderer + main
         run: npx electron-vite build
 

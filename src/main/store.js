@@ -36,6 +36,15 @@ export const yesterdayISO = (base = new Date()) => {
   return d.toISOString().slice(0, 10);
 };
 
+export function previousWorkdayISO(base = new Date(), skipWeekends = false) {
+  const d = new Date(base);
+  d.setDate(d.getDate() - 1);
+  if (skipWeekends) {
+    while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() - 1);
+  }
+  return d.toISOString().slice(0, 10);
+}
+
 export function getSettings() {
   return store.get('settings');
 }
@@ -173,10 +182,11 @@ export function recordHealthCheck(type, action) {
 export function saveEndOfDay({ mood, journal, tomorrowNote }) {
   const date = todayISO();
   const state = getState();
-  const yest = yesterdayISO();
+  const skipWeekends = getSettings().skipWeekends;
+  const expectedPrev = previousWorkdayISO(new Date(), skipWeekends);
 
   let streak;
-  if (state.lastLogDate === yest) streak = (state.streak || 0) + 1;
+  if (state.lastLogDate === expectedPrev) streak = (state.streak || 0) + 1;
   else if (state.lastLogDate === date) streak = state.streak || 1;
   else streak = 1;
 

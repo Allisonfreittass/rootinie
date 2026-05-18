@@ -1,5 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+
+export function useEscapeToClose() {
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape') window.devlog.window.close();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+}
 
 export function TopBar({ time, showBrand = true, showSettings = true }) {
   const { t } = useTranslation();
@@ -62,10 +72,10 @@ export function relativeTime(iso, t) {
 }
 
 export const MOODS = [
-  { id: 'flow',       emoji: '🔥' },
   { id: 'frustrated', emoji: '😤' },
   { id: 'tired',      emoji: '😴' },
-  { id: 'great',      emoji: '😎' }
+  { id: 'great',      emoji: '😎' },
+  { id: 'flow',       emoji: '🔥' }
 ];
 
 export function moodMeta(id) {
@@ -85,32 +95,49 @@ function getAudioCtx() {
   }
 }
 
-export async function playStartChime() {
+async function shouldPlaySound() {
   try {
     const settings = await window.devlog.settings.get();
-    if (!settings.sound) return;
+    return Boolean(settings.sound);
   } catch {
-    return;
+    return false;
   }
+}
+
+function playNotes(notes, peak = 0.08) {
   const ctx = getAudioCtx();
   if (!ctx) return;
   if (ctx.state === 'suspended') ctx.resume().catch(() => {});
-
   const now = ctx.currentTime;
-  const notes = [
-    { freq: 523.25, start: 0,    dur: 0.12 },
-    { freq: 783.99, start: 0.09, dur: 0.18 }
-  ];
   notes.forEach(({ freq, start, dur }) => {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = 'sine';
     osc.frequency.value = freq;
     gain.gain.setValueAtTime(0, now + start);
-    gain.gain.linearRampToValueAtTime(0.08, now + start + 0.015);
+    gain.gain.linearRampToValueAtTime(peak, now + start + 0.015);
     gain.gain.exponentialRampToValueAtTime(0.0001, now + start + dur);
     osc.connect(gain).connect(ctx.destination);
     osc.start(now + start);
     osc.stop(now + start + dur + 0.02);
   });
+}
+
+export async function playStartChime() {
+  if (!(await shouldPlaySound())) return;
+  playNotes([
+    { freq: 523.25, start: 0,    dur: 0.12 },
+    { freq: 783.99, start: 0.09, dur: 0.18 }
+  ]);
+}
+
+export async function playReminderChime() {
+  if (!(await shouldPlaySound())) return;
+  playNotes(
+    [
+      { freq: 880.0,  start: 0,    dur: 0.10 },
+      { freq: 1318.5, start: 0.07, dur: 0.14 }
+    ],
+    0.05
+  );
 }

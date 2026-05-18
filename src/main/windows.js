@@ -92,7 +92,8 @@ export function openWindow(name, params) {
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: false,
-      backgroundThrottling: false
+      backgroundThrottling: false,
+      autoplayPolicy: 'no-user-gesture-required'
     }
   });
 

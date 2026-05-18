@@ -9,6 +9,7 @@
   },
   "endofday": {
     "greeting": "hey, you survived? 👀 that was <0>{{time}}</0> of screen today. how did it go?",
+    "greetingShort": "light day today 🌤️ how did it go?",
     "moodLabel": "today's mood",
     "journalLabel": "vent here",
     "journalPlaceholder": "how was your day?",
@@ -28,7 +29,11 @@
   "morning": {
     "greeting": "good morning, {{name}} 👋",
     "greetingNoName": "good morning 👋",
-    "streakDays": "{{count}} days",
+    "streakDays_one": "{{count}} day",
+    "streakDays_other": "{{count}} days",
+    "firstDayChip": "fresh start",
+    "welcomeTitle": "first day rolling 🌿",
+    "welcomeText": "breathe, open your editor, and we'll talk tomorrow about how it went. good coding.",
     "ydayLabel": "you left yesterday",
     "noYday": "no note from yesterday — clean slate ✨",
     "ydayMoodLabel": "yesterday's mood",
@@ -40,8 +45,11 @@
       "breathe": "2min breath",
       "eyes": "look far 20s"
     },
-    "snooze": "snooze",
-    "go": "let's code 🚀"
+    "later": "later",
+    "go": "let's code 🚀",
+    "goAgain": "update focus 🎯",
+    "focusActiveLabel": "coding today on",
+    "focusModeOn": "focus mode on"
   },
   "focus": {
     "question": "what's the most important task today?",
@@ -77,6 +85,7 @@
   },
   "settings": {
     "title": "settings",
+    "saved": "saved",
     "eodTime": "end of day",
     "morningTime": "morning",
     "reminderInterval": "reminder every (min)",

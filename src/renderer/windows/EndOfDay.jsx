@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { TopBar, nowHHMM, formatScreenTime, MOODS } from './shared.jsx';
+import { TopBar, nowHHMM, formatScreenTime, MOODS, useEscapeToClose } from './shared.jsx';
 
 export default function EndOfDay() {
+  useEscapeToClose();
   const { t } = useTranslation();
   const [mood, setMood] = useState(null);
   const [journal, setJournal] = useState('');
@@ -43,11 +44,15 @@ export default function EndOfDay() {
           <div className="app-avatar">🤖</div>
           <div className="msg-bubble">
             <div className="msg-text">
-              <Trans
-                i18nKey="endofday.greeting"
-                values={{ time: formatScreenTime(screenTime) }}
-                components={[<span className="chip" />]}
-              />
+              {screenTime < 300 ? (
+                t('endofday.greetingShort')
+              ) : (
+                <Trans
+                  i18nKey="endofday.greeting"
+                  values={{ time: formatScreenTime(screenTime) }}
+                  components={[<span className="chip" />]}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -80,14 +85,17 @@ export default function EndOfDay() {
           <div className="mood-label">{t('endofday.moodLabel')}</div>
           <div className="mood-row">
             {MOODS.map((m) => (
-              <div
+              <button
+                type="button"
                 key={m.id}
                 className={`mood-btn${mood === m.id ? ' sel' : ''}`}
                 onClick={() => setMood(m.id)}
+                aria-pressed={mood === m.id}
+                aria-label={t(`mood.${m.id}`)}
               >
                 <span className="mood-emoji">{m.emoji}</span>
                 <span className="mood-text">{t(`mood.${m.id}`)}</span>
-              </div>
+              </button>
             ))}
           </div>
         </div>

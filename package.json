@@ -10,9 +10,10 @@
     "dev": "electron-vite dev",
     "build": "electron-vite build",
     "prebuild": "node scripts/generate-icons.mjs",
-    "package": "pnpm build && electron-builder --win nsis --linux AppImage",
-    "package:win": "pnpm build && electron-builder --win nsis",
-    "package:linux": "pnpm build && electron-builder --linux AppImage",
+    "icons": "node scripts/generate-icons.mjs",
+    "package": "npm run icons && npm run build && electron-builder --win nsis --linux AppImage",
+    "package:win": "npm run icons && npm run build && electron-builder --win nsis",
+    "package:linux": "npm run icons && npm run build && electron-builder --linux AppImage",
     "landing:deploy": "wrangler pages deploy landing --project-name rootinie --commit-dirty=true"
   },
   "dependencies": {
