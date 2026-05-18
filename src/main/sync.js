@@ -5,20 +5,31 @@ import {
   upsertEntry,
   patchState,
   getState,
+  recomputeStreakFromEntries,
   store
 } from './store.js';
 
 const TABLE = 'rootinie_entries';
 let retryTimer = null;
 const listeners = new Set();
+const entriesListeners = new Set();
 
 function emit(status) {
   for (const cb of listeners) cb(status);
 }
 
+function entriesChanged() {
+  for (const cb of entriesListeners) cb();
+}
+
 export function onStatusChange(cb) {
   listeners.add(cb);
   return () => listeners.delete(cb);
+}
+
+export function onEntriesChanged(cb) {
+  entriesListeners.add(cb);
+  return () => entriesListeners.delete(cb);
 }
 
 function isOnline() {
@@ -63,8 +74,9 @@ export async function signIn({ email, password }) {
   if (!sb) return { error: 'not_configured' };
   const { data, error } = await sb.auth.signInWithPassword({ email, password });
   if (error) return { error: error.message };
-  await pullAll();
+  const pullRes = await pullAll();
   emit(await getStatus());
+  if (pullRes.pulled > 0) entriesChanged();
   return { user: data.user };
 }
 
@@ -160,14 +172,21 @@ export async function pullAll() {
     pulled++;
   }
   store.set('entries', entries);
+  if (pulled > 0) recomputeStreakFromEntries();
   patchState({ lastSyncAt: new Date().toISOString() });
   return { pulled, errors: [], skippedUnsynced };
 }
 
 export async function syncNow() {
   const pushRes = await pushPending();
+  const pullRes = await pullAll();
   emit(await getStatus());
-  return { pushed: pushRes.pushed, errors: pushRes.errors };
+  if (pullRes.pulled > 0) entriesChanged();
+  return {
+    pushed: pushRes.pushed,
+    pulled: pullRes.pulled,
+    errors: [...pushRes.errors, ...pullRes.errors]
+  };
 }
 
 export function startBackgroundSync() {

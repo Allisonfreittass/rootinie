@@ -747,6 +747,20 @@ html.dark .btn-main { color: #0a1a10; }
   font-size: 12px;
 }
 
+.mood-pip.is-today {
+  border-color: var(--green);
+  box-shadow: 0 0 0 2px var(--green-bg);
+  background: var(--green-bg);
+}
+.mood-pip.is-today .mood-pip-day {
+  color: var(--green);
+  font-weight: 600;
+}
+.mood-pip.is-today.empty .mood-pip-emoji {
+  color: var(--green);
+  opacity: 1;
+}
+
 .mood-pip:hover { border-color: var(--border2); }
 
 .mood-pip-emoji { font-size: 14px; line-height: 1; }

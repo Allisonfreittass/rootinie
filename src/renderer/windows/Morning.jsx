@@ -28,15 +28,21 @@ function MoodStrip({ entries, t, locale }) {
       <div className="mood-strip-row">
         {entries.map((e) => {
           const m = e.mood ? moodMeta(e.mood) : null;
-          const title = `${e.date} · ${m ? t(`mood.${e.mood}`) : t('morning.noDay')}`;
+          const moodText = m ? t(`mood.${e.mood}`) : t('morning.noDay');
+          const title = e.isToday
+            ? `${t('morning.todayLabel')} · ${moodText}`
+            : `${e.date} · ${moodText}`;
+          const dayLabel = e.isToday
+            ? t('morning.todayShort')
+            : shortWeekday(e.date, locale);
+          const classes = ['mood-pip'];
+          if (m) classes.push('has-mood');
+          else classes.push('empty');
+          if (e.isToday) classes.push('is-today');
           return (
-            <div
-              key={e.date}
-              className={`mood-pip ${m ? 'has-mood' : 'empty'}`}
-              title={title}
-            >
+            <div key={e.date} className={classes.join(' ')} title={title}>
               <span className="mood-pip-emoji">{m ? m.emoji : '·'}</span>
-              <span className="mood-pip-day">{shortWeekday(e.date, locale)}</span>
+              <span className="mood-pip-day">{dayLabel}</span>
             </div>
           );
         })}
@@ -212,13 +218,20 @@ export default function Morning() {
   const [view, setView] = useState('morning');
 
   useEffect(() => {
+    function loadEntries() {
+      window.devlog.stats.streak().then(setStreak);
+      window.devlog.entry.yesterday().then(setYEntry);
+      window.devlog.stats.recent(7).then(setRecent);
+      window.devlog.focus.status().then(setFocusToday);
+    }
     window.devlog.user.get().then(setUser);
-    window.devlog.stats.streak().then(setStreak);
-    window.devlog.entry.yesterday().then(setYEntry);
-    window.devlog.stats.recent(7).then(setRecent);
-    window.devlog.focus.status().then(setFocusToday);
+    loadEntries();
+    const off = window.devlog.entry.onChanged(loadEntries);
     const tick = setInterval(() => setTime(nowHHMM()), 30000);
-    return () => clearInterval(tick);
+    return () => {
+      clearInterval(tick);
+      off?.();
+    };
   }, []);
 
   function close() {

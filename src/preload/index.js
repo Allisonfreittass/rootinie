@@ -23,7 +23,8 @@ const api = {
     get: (date) => ipcRenderer.invoke('entry:get', date),
     yesterday: () => ipcRenderer.invoke('entry:yesterday'),
     saveEod: (payload) => ipcRenderer.invoke('entry:saveEod', payload),
-    health: (type, action) => ipcRenderer.invoke('entry:health', { type, action })
+    health: (type, action) => ipcRenderer.invoke('entry:health', { type, action }),
+    onChanged: sub('entries:changed')
   },
   focus: {
     set: (task, enableMode) => ipcRenderer.invoke('focus:set', { task, enableMode }),

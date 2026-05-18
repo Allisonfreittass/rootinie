@@ -144,8 +144,9 @@ export function listEntries() {
   return Object.values(store.get('entries'));
 }
 
-export function listRecentEntries(days = 7, includeToday = false) {
+export function listRecentEntries(days = 7, includeToday = true) {
   const entries = store.get('entries');
+  const today = todayISO();
   const out = [];
   const base = new Date();
   const start = includeToday ? 0 : 1;
@@ -157,7 +158,8 @@ export function listRecentEntries(days = 7, includeToday = false) {
     out.push({
       date: iso,
       mood: entry?.mood || null,
-      hasJournal: !!(entry?.journal && entry.journal.trim())
+      hasJournal: !!(entry?.journal && entry.journal.trim()),
+      isToday: iso === today
     });
   }
   return out.reverse();
@@ -175,6 +177,26 @@ export function lastHealthAt(type = null) {
 
 export function listPendingEntries() {
   return listEntries().filter((e) => !e.syncedAt);
+}
+
+export function recomputeStreakFromEntries() {
+  const entries = store.get('entries');
+  const dated = Object.keys(entries).filter((d) => entries[d]?.mood).sort();
+  if (dated.length === 0) {
+    patchState({ streak: 0, lastLogDate: null });
+    return { streak: 0, lastLogDate: null };
+  }
+  const latest = dated[dated.length - 1];
+  const skipWeekends = getSettings().skipWeekends;
+  let streak = 0;
+  let cursor = latest;
+  while (entries[cursor]?.mood) {
+    streak++;
+    const cursorDate = new Date(`${cursor}T12:00:00`);
+    cursor = previousWorkdayISO(cursorDate, skipWeekends);
+  }
+  patchState({ streak, lastLogDate: latest });
+  return { streak, lastLogDate: latest };
 }
 
 export function recordHealthCheck(type, action) {

@@ -50,8 +50,10 @@
     "noYday": "no note from yesterday — clean slate ✨",
     "ydayMoodLabel": "yesterday's mood",
     "noYdayMood": "—",
-    "lastDays": "last 7 days",
+    "lastDays": "this week",
     "noDay": "no entry",
+    "todayLabel": "today",
+    "todayShort": "today",
     "health": {
       "water": "drink water first",
       "breathe": "2min breath",

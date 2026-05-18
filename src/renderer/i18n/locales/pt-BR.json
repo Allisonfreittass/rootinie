@@ -50,8 +50,10 @@
     "noYday": "nenhum recado de ontem — começo limpo ✨",
     "ydayMoodLabel": "humor de ontem",
     "noYdayMood": "—",
-    "lastDays": "últimos 7 dias",
+    "lastDays": "última semana",
     "noDay": "sem registro",
+    "todayLabel": "hoje",
+    "todayShort": "hoje",
     "health": {
       "water": "beba água primeiro",
       "breathe": "2min respiro",

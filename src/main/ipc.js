@@ -87,7 +87,7 @@ export function registerIpc() {
     return storeRecordHealth(type, action);
   });
 
-  ipcMain.handle('stats:recent', (_e, days = 7) => listRecentEntries(days, false));
+  ipcMain.handle('stats:recent', (_e, days = 7) => listRecentEntries(days, true));
 
   ipcMain.handle('focus:set', (_e, { task, enableMode }) => {
     const entry = setFocusTask(task);
@@ -158,6 +158,7 @@ export function registerIpc() {
   });
 
   sync.onStatusChange((status) => broadcast('sync:status', status));
+  sync.onEntriesChanged(() => broadcast('entries:changed'));
 }
 
 export function resolveThemeMode(mode) {
