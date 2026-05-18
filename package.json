@@ -1,6 +1,6 @@
 {
   "name": "rootinie",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Rootinie — health and memory companion for developers working from home",
   "main": "out/main/index.js",
   "author": "F2 Tecnologia <desenvolvimento@f2tecnologia.digital>",
